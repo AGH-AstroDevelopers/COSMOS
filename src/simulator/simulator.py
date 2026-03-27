@@ -1,8 +1,8 @@
 import json
 import time
-from datetime import datetime
 from random import uniform
 from uuid import uuid4
+from datetime import datetime, timezone
 
 # --- Configuration Constants ---
 
@@ -32,13 +32,25 @@ cur_params = {
 
 
 def update(val, drift, v_min, v_max):
+    """
+    Simulates sensor drift using a 'random walk' technique.
+    Instead of jumping randomly between min and max, the value changes
+    gradually by adding a small random step to the current state. This
+    mimics real-world physical sensors where values change continuously.
+
+    :param val: Current sensor value.
+    :param drift: Maximum allowed change per step (step size).
+    :param v_min: Minimum physical bound for the sensor.
+    :param v_max: Maximum physical bound for the sensor.
+    :return: Updated value clamped within [v_min, v_max].
+    """
     return max(v_min, min(v_max, val + uniform(-drift, drift)))
 
 
 def update_params():
     """
     Simulates physical sensor drift by applying a random walk to
-    each parameter and clamping the results within realistic bounds.
+    each parameter.
     """
 
     cur_params["temperature_c"] = update(cur_params["temperature_c"], MAX_TEMP_DRIFT, MIN_TEMP, MAX_TEMP)
@@ -55,7 +67,7 @@ def generate_data():
     update_params()
     state = {
         "packet_id": str(uuid4()),
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "source": "simulator",
         "thermal": {
             "temperature_c": round(cur_params["temperature_c"], DECIMAL_PRECISION)
@@ -71,13 +83,16 @@ def generate_data():
         }
     }
 
-    return json.dumps(state)
+    return state
 
 
+# NOTE: This block ensures the script only runs when executed directly from
+# the terminal (e.g. python simulator.py), not when imported as a module
+# by another file.
 if __name__ == "__main__":
     try:
         while True:
-            json_data = generate_data()
+            json_data = json.dumps(generate_data())
             print(json_data)
             time.sleep(1)
     except KeyboardInterrupt:
