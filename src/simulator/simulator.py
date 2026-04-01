@@ -123,7 +123,7 @@ def send_packet(packet:dict)->None:
     except  requests.exceptions.HTTPError as e:
         logger.warning(f"Backend returned an error: {e}. Skipping send.")
     except Exception as e:
-        logger.warning(f"Unexpected error while sending packet: {e}")
+        logger.error(f"Unexpected error while sending packet: {e}")
 
 
 if __name__ == "__main__":
