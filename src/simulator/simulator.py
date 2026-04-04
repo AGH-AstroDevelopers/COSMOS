@@ -4,6 +4,10 @@ from random import uniform
 from uuid import uuid4
 from datetime import datetime, timezone
 
+import logging
+import requests 
+from config import BACKEND_URL, SEND_INTERVAL_S
+
 # --- Configuration Constants ---
 
 MIN_TEMP = 10.0
@@ -30,19 +34,36 @@ cur_params = {
 
 }
 
+#--------logger configs
+logger=logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Console
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(logging.Formatter("[%(asctime)s]:[%(levelname)s]: %(message)s"))
+
+# logger file
+file_handler = logging.FileHandler("simulator.log")
+file_handler.setFormatter(logging.Formatter("[%(asctime)s]:[%(levelname)s]: %(message)s"))
+
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+#------------------
+
 
 def update(val, drift, v_min, v_max):
     """
     Simulates sensor drift using a 'random walk' technique.
-    Instead of jumping randomly between min and max, the value changes
-    gradually by adding a small random step to the current state. This
-    mimics real-world physical sensors where values change continuously.
+    
+    (The value changes gradually by adding a small random step to the current state. 
+    This mimics real-world physical sensors where values change continuously.)
 
     :param val: Current sensor value.
     :param drift: Maximum allowed change per step (step size).
     :param v_min: Minimum physical bound for the sensor.
     :param v_max: Maximum physical bound for the sensor.
-    :return: Updated value clamped within [v_min, v_max].
+    :return : Updated value clamped within [v_min, v_max].
     """
     return max(v_min, min(v_max, val + uniform(-drift, drift)))
 
@@ -83,21 +104,39 @@ def generate_data():
         }
     }
 
-    return state
+    return state 
 
 
-# NOTE: This block ensures the script only runs when executed directly from
-# the terminal (e.g. python simulator.py), not when imported as a module
-# by another file.
+def send_packet(packet:dict)->None:
+    """Sends a telemetry packet to the backend via HTTP POST.
+    - If the backend is unavailable, logs a warning and continues
+    - Simulator never crashes due to network failure
+
+    :param packet: The telemetry data dict to send as JSON."""
+    try:
+        response = requests.post(BACKEND_URL, json=packet, timeout=2) #No response after 2 sec-> error:timeout
+        response.raise_for_status()
+    except requests.exceptions.ConnectionError:
+        logger.warning(f"Backend unavailable at {BACKEND_URL}. Skipping send.")
+    except requests.exceptions.Timeout:
+        logger.warning(f"Request to {BACKEND_URL} timed out. Skipping send.")
+    except  requests.exceptions.HTTPError as e:
+        logger.warning(f"Backend returned an error: {e}. Skipping send.")
+    except Exception as e:
+        logger.error(f"Unexpected error while sending packet: {e}")
+
+
 if __name__ == "__main__":
+    # NOTE: This block ensures the script only runs when executed directly from
+    # the terminal (e.g. python simulator.py), not when imported as a module by another file.
     try:
         while True:
-            json_data = json.dumps(generate_data())
-            print(json_data)
-            time.sleep(1)
-    except KeyboardInterrupt:
-        # Log shutdown on Ctrl+C
-        print("\n Data generation interrupted.")
-    except Exception as e:
-        # Log unexpected errors
-        print(f"\n An unexpected error occurred: {e}")
+            packet=generate_data()
+            logger.info(json.dumps(packet))
+
+            send_packet(packet)
+            time.sleep(SEND_INTERVAL_S)
+    except KeyboardInterrupt: # Log shutdown on Ctrl+C
+        logger.info("Data generation interrupted.")
+    except Exception as e: # Log unexpected errors
+        logger.error(f"An unexpected error occurred: {e}")
