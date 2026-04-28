@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from config import *
+from config import PORT
 
 app = FastAPI()
-
+# Stores the most recently received telemetry packet in memory.
+# Overwritten with every new packet. Lost on server restart.
 latest_packet = {}
 
 
