@@ -5,7 +5,7 @@ from uuid import uuid4
 from datetime import datetime, timezone
 
 import logging
-import requests 
+import requests
 from config import BACKEND_URL, SEND_INTERVAL_S
 
 # --- Configuration Constants ---
@@ -34,8 +34,8 @@ cur_params = {
 
 }
 
-#--------logger configs
-logger=logging.getLogger(__name__)
+# --------logger configs
+logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # Console
@@ -49,7 +49,8 @@ file_handler.setFormatter(logging.Formatter("[%(asctime)s]:[%(levelname)s]: %(me
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
-#------------------
+
+# ------------------
 
 
 def update(val, drift, v_min, v_max):
@@ -104,23 +105,23 @@ def generate_data():
         }
     }
 
-    return state 
+    return state
 
 
-def send_packet(packet:dict)->None:
+def send_packet(packet: dict) -> None:
     """Sends a telemetry packet to the backend via HTTP POST.
     - If the backend is unavailable, logs a warning and continues
     - Simulator never crashes due to network failure
 
     :param packet: The telemetry data dict to send as JSON."""
     try:
-        response = requests.post(BACKEND_URL, json=packet, timeout=2) #No response after 2 sec-> error:timeout
+        response = requests.post(BACKEND_URL, json=packet, timeout=2)  # No response after 2 sec-> error:timeout
         response.raise_for_status()
     except requests.exceptions.ConnectionError:
         logger.warning(f"Backend unavailable at {BACKEND_URL}. Skipping send.")
     except requests.exceptions.Timeout:
         logger.warning(f"Request to {BACKEND_URL} timed out. Skipping send.")
-    except  requests.exceptions.HTTPError as e:
+    except requests.exceptions.HTTPError as e:
         logger.warning(f"Backend returned an error: {e}. Skipping send.")
     except Exception as e:
         logger.error(f"Unexpected error while sending packet: {e}")
@@ -131,12 +132,12 @@ if __name__ == "__main__":
     # the terminal (e.g. python simulator.py), not when imported as a module by another file.
     try:
         while True:
-            packet=generate_data()
+            packet = generate_data()
             logger.info(json.dumps(packet))
 
             send_packet(packet)
             time.sleep(SEND_INTERVAL_S)
-    except KeyboardInterrupt: # Log shutdown on Ctrl+C
+    except KeyboardInterrupt:  # Log shutdown on Ctrl+C
         logger.info("Data generation interrupted.")
-    except Exception as e: # Log unexpected errors
+    except Exception as e:  # Log unexpected errors
         logger.error(f"An unexpected error occurred: {e}")
