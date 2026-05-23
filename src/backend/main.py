@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from config import PORT
+from src.backend.config import PORT
 from src.backend.validator import validate_packet
 
 app = FastAPI()

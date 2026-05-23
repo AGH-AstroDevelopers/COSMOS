@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 import logging
 import requests
-from config import BACKEND_URL, SEND_INTERVAL_S
+from src.simulator.config import BACKEND_URL, SEND_INTERVAL_S
 
 # --- Configuration Constants ---
 
