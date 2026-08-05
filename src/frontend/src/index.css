@@ -1,0 +1,9 @@
+body{
+    margin:0;
+    background-color: #14171a;
+    font-family: fontSans;
+}
+
+#root{
+    min-height: 100vh;
+}

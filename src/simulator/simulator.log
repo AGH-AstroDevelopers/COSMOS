@@ -1,0 +1,8 @@
+[2026-04-01 17:37:19,908]:[INFO]: {"packet_id": "d34ffad1-7153-4a57-85c6-1abb7bc818d7", "timestamp": "2026-04-01T15:37:19.906897+00:00", "source": "simulator", "thermal": {"temperature_c": 66.92}, "power": {"voltage_v": 12.1, "current_ma": 818.11}, "attitude": {"roll_deg": -1.03, "pitch_deg": 2.32, "yaw_deg": -2.39}}
+[2026-04-01 17:37:23,943]:[WARNING]: Backend unavailable at http://localhost:8000/telemetry. Skipping send.
+[2026-04-01 17:37:24,954]:[INFO]: {"packet_id": "7440d473-5200-4a1d-8825-ee7fc7944ab6", "timestamp": "2026-04-01T15:37:24.954132+00:00", "source": "simulator", "thermal": {"temperature_c": 67.06}, "power": {"voltage_v": 12.2, "current_ma": 815.19}, "attitude": {"roll_deg": -3.41, "pitch_deg": 7.08, "yaw_deg": 1.22}}
+[2026-04-01 17:37:28,998]:[WARNING]: Backend unavailable at http://localhost:8000/telemetry. Skipping send.
+[2026-04-01 17:37:30,007]:[INFO]: {"packet_id": "897c613b-8dd3-48f9-965c-4ed47ba701a5", "timestamp": "2026-04-01T15:37:30.007320+00:00", "source": "simulator", "thermal": {"temperature_c": 66.73}, "power": {"voltage_v": 12.29, "current_ma": 813.92}, "attitude": {"roll_deg": -1.71, "pitch_deg": 3.68, "yaw_deg": 0.02}}
+[2026-04-01 17:37:34,019]:[WARNING]: Backend unavailable at http://localhost:8000/telemetry. Skipping send.
+[2026-04-01 17:37:35,030]:[INFO]: {"packet_id": "8501dd63-281d-4ac2-b450-859c25cbed71", "timestamp": "2026-04-01T15:37:35.030117+00:00", "source": "simulator", "thermal": {"temperature_c": 67.07}, "power": {"voltage_v": 12.2, "current_ma": 814.04}, "attitude": {"roll_deg": 1.2, "pitch_deg": 2.67, "yaw_deg": -3.84}}
+[2026-04-01 17:37:39,051]:[WARNING]: Data generation interrupted.
