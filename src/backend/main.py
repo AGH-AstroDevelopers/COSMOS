@@ -7,7 +7,7 @@ from src.backend.validator import validate_packet
 app = FastAPI()
 # Stores the most recently received telemetry packet in memory.
 # Overwritten with every new packet. Lost on server restart.
-latest_packet = {}
+latest_packet = None
 
 
 # Endpoint to receive data from the simulator

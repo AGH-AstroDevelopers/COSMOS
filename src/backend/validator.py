@@ -1,7 +1,18 @@
 from datetime import datetime, timezone
 
-from src.simulator.simulator import MAX_TEMP, MIN_TEMP, MAX_VOLTAGE, MIN_VOLTAGE, MAX_CURRENT, MIN_CURRENT, MAX_DEG, \
-    MIN_DEG
+MIN_TEMP = 10.0
+MAX_TEMP = 80.0
+MAX_TEMP_DRIFT = 0.5
+MIN_VOLTAGE = 11.0
+MAX_VOLTAGE = 13.0
+MAX_VOLTAGE_DRIFT = 0.2
+MAX_DEG = 180.0
+MIN_DEG = -180.0
+MAX_DEG_DRIFT = 5.0
+MIN_CURRENT = 100.0
+MAX_CURRENT = 2000.0
+MAX_CURRENT_DRIFT = 5.0
+DECIMAL_PRECISION = 2
 
 
 def validate_packet(packet):
@@ -30,6 +41,14 @@ def validate_packet(packet):
     thermal = packet["thermal"]
     power = packet["power"]
     attitude = packet["attitude"]
+
+    # check that nested objects are dictionaries
+    if not isinstance(thermal, dict):
+        return "invalid type: thermal must be a dict"
+    if not isinstance(power, dict):
+        return "invalid type: power must be a dict"
+    if not isinstance(attitude, dict):
+        return "invalid type: attitude must be a dict"
 
     # check nested keys
     if "temperature_c" not in thermal:
@@ -73,7 +92,8 @@ def validate_packet(packet):
         return "value out of range: pitch_deg"
     if not MIN_DEG <= attitude["yaw_deg"] <= MAX_DEG:
         return "value out of range: yaw_deg"
-    if packet["timestamp"] > datetime.now(timezone.utc).isoformat():
+    timestamp = datetime.fromisoformat(packet["timestamp"].replace("Z","+00:00"))
+    if timestamp > datetime.now(timezone.utc):
         return "invalid timestamp: cannot be in the future"
 
     # all checks passed
