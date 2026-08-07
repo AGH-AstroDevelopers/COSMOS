@@ -1,4 +1,5 @@
 import Topbar from "./components/topbar/Topbar";
+import SidePanel from "./components/sidebar/SidePanel";
 import { useState } from "react";
 
 function App(){
@@ -6,6 +7,7 @@ function App(){
   return(
     <>
       <Topbar />
+      <SidePanel />
     </>
   )
 }
