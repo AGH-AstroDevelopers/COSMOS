@@ -1,3 +1,4 @@
+/*SIDE BAR*/
 .openBar{
     position: fixed;
     left: 16px;
@@ -41,14 +42,10 @@
     z-index: 10;
     transition: transform 0.25s ease;
 }
-.sidebarContent.open {
-    transform: translateX(0);
-}
+.sidebarContent.open {transform: translateX(0);}
+.sidebarContent.closed {transform: translateX(-100%)}
 
-.sidebarContent.closed {
-    transform: translateX(-100%);
-}
-
+/*CONTENT*/
 .searchBox{
     padding: 12px;
     border-bottom: 1px solid #2c3238;
@@ -69,6 +66,7 @@
     outline: none;
 }
 
+/*LIST*/
 .widgetTree{
     padding:12px;
     overflow-y: auto;
@@ -91,13 +89,12 @@
     border-radius: 6px;
 
     padding-left: 12px;
+    gap: 6px;
 }
-
 .subsystemButton:hover{
     background-color: #24292f;
 }
-
-.parameterList button{
+.parameterButton{
     width:100%;
     height:32px;
 
@@ -108,14 +105,55 @@
     background-color: transparent;
     border: none;
     
-    color: #e8eaed;
+    color: #98999a;
     font-size: 12px;
     cursor:pointer;
     border-radius: 6px;
 
     padding-left: 32px;
+    gap: 6px;
+}
+.parameterButton:hover{
+    background-color: #24292f;
+}
+.arrow{
+    display: inline-block;
+    color: #5f6b73;
+    font-size: 12px;
+
+    transition: transform 300ms ease;
+}
+.arrow.open{
+    transform: rotate(90deg);
 }
 
-.parameterList button:hover{
+.visualizationList{
+    display:flex;
+    flex-direction: column;
+
+    padding-left: 53px;
+    padding-top: 0px;
+    padding-bottom: 4px;
+
+    color: #6f7071;
+    font-size: 10px;
+    font-family: monospace;
+}
+.visualizationList label{
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 20px;
+    gap: 7px;
+
+    cursor: pointer;
+}
+.visualizationList input[type="checkbox"]{
+    margin: 0;
+    cursor: pointer;
+}
+.visualizationList label:hover{
     background-color: #24292f;
+    color: #e8eaed;
 }
