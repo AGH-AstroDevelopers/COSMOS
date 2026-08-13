@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function SidePanel(){
     const [sidebarOpen, setSidebarOpen]=useState(false);
+    const [search,setSearch] = useState("");
 
     return(
         <div>
@@ -14,8 +15,8 @@ function SidePanel(){
             </button>
     
             <aside className={`sidebarContent ${sidebarOpen ? "open" : "closed"}`}>
-                <SearchBox />
-                <WidgetTree/>
+                <SearchBox search={search} setSearch={setSearch}/>
+                <WidgetTree search={search}/>
             </aside>
         </div>
     );

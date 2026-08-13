@@ -3,7 +3,12 @@ import SubsystemItem from "./SubsystemItem";
 import { useState } from "react";
 
 /*Manages the entire tree data and rules. The place for adding subsystems, their parameters, and visualizations.*/
-function WidgetTree(){
+type WidgetTreeProps = {
+    search: string;
+};
+
+function WidgetTree(arg: WidgetTreeProps){
+    console.log("SEARCH:", arg.search);
     const [expanded, setExpanded] = useState(new Set<string>());
     const subsystems = [
         {
@@ -94,6 +99,13 @@ function WidgetTree(){
             ]
         }
     ];
+    const filteredSubsystems = subsystems.filter( subsystem => {
+        const subsystemMatches = subsystem.name.toLowerCase().includes(arg.search.toLowerCase());
+        const parametersMatches= subsystem.parameters.some (parameter => 
+            parameter.name.toLowerCase().includes(arg.search.toLowerCase()) 
+        );
+        return subsystemMatches || parametersMatches;    
+    });
 
     function toggle(id: string) {
         setExpanded(prev => {
@@ -109,7 +121,7 @@ function WidgetTree(){
 
     return(
         <div className="widgetTree"> 
-            { subsystems.map( subsystem => (
+            { filteredSubsystems.map( subsystem => (
                 <SubsystemItem
                     key={subsystem.id}
                     name={subsystem.name}

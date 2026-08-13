@@ -1,14 +1,16 @@
 import "./SidePanel.css";
-import { useState } from "react";
 
-function SearchBox(){
-    const[search,setSearch] = useState("");
+type SearchBoxProps = {
+    search:string;
+    setSearch: (value:string) => void;
+}
 
+function SearchBox(arg: SearchBoxProps){
     return(
         <div className="searchBox">
             <input placeholder="Search widgets..." 
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={arg.search}
+                onChange={(e) => arg.setSearch(e.target.value)}
             />
         </div>
     );
