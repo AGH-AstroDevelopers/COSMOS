@@ -2,11 +2,13 @@ import SearchBox from "./SearchBox";
 import WidgetTree from "./WidgetTree";
 
 import "./SidePanel.css";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 
 type SidePanelProps = {
     sidebarOpen: boolean;
     setSidebarOpen: (value: boolean) => void;
+    selectedWidgets: Set<string>;
+    setSelectedWidgets: Dispatch<SetStateAction<Set<string>>>;
 }
 
 function SidePanel(arg: SidePanelProps){
@@ -20,7 +22,7 @@ function SidePanel(arg: SidePanelProps){
     
             <aside className={`sidebarContent ${arg.sidebarOpen ? "open" : "closed"}`}>
                 <SearchBox search={search} setSearch={setSearch}/>
-                <WidgetTree search={search}/>
+                <WidgetTree search={search} selectedWidgets={arg.selectedWidgets} setSelectedWidgets={arg.setSelectedWidgets}/>
             </aside>
         </div>
     );

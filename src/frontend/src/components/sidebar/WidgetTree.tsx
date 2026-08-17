@@ -1,10 +1,12 @@
 import "./SidePanel.css";
 import SubsystemItem from "./SubsystemItem";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 
 /*Manages the entire tree data and rules. The place for adding subsystems, their parameters, and visualizations.*/
 type WidgetTreeProps = {
     search: string;
+    selectedWidgets: Set<string>;
+    setSelectedWidgets: Dispatch<SetStateAction<Set<string>>>;
 };
 
 function WidgetTree(arg: WidgetTreeProps){
@@ -128,6 +130,8 @@ function WidgetTree(arg: WidgetTreeProps){
                     parameters={subsystem.parameters}
                     isOpen={expanded.has(subsystem.id)}
                     onToggle = {() => toggle(subsystem.id)}
+                    selectedWidgets={arg.selectedWidgets}
+                    setSelectedWidgets ={arg.setSelectedWidgets}
                 />
             ))}
         </div>

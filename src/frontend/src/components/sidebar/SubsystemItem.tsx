@@ -1,6 +1,6 @@
 import "./SidePanel.css";
 import ParameterItem from "./ParameterItem";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 
 /*Responsible for the logic and development of a single subsystem received from the widget tree*/
 
@@ -15,6 +15,8 @@ type SubsystemItemArg = {
     parameters: Parameter[];
     isOpen: boolean;
     onToggle: () => void;
+    selectedWidgets: Set<string>;
+    setSelectedWidgets: Dispatch<SetStateAction<Set<string>>>;
 }
 
 function SubsystemItem(arg: SubsystemItemArg){
@@ -30,8 +32,11 @@ function SubsystemItem(arg: SubsystemItemArg){
                     {arg.parameters.map(parameter =>(
                         <ParameterItem
                             key={parameter.id}
+                            id={parameter.id}
                             name={parameter.name}
                             visualizations={parameter.visualizations}
+                            selectedWidgets={arg.selectedWidgets}
+                            setSelectedWidgets={arg.setSelectedWidgets}
                         />
                     ))}
                 </div>
