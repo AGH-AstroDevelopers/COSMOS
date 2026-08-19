@@ -1,10 +1,14 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { WidgetConfig } from "../types/telemetry";
 import "./Workspace.css"
 
 type WidgetFrameProps = {
-    title:string;
-    chartType?: ReactNode;
-}
+    config: WidgetConfig;
+    title: string;
+    subsystemName: string;
+    children: React.ReactNode;
+    onRemove: () => void;
+};
 
 function WidgetFrame(arg: WidgetFrameProps){
     const [locked, setLocked]= useState(false);
@@ -13,15 +17,23 @@ function WidgetFrame(arg: WidgetFrameProps){
         <div className="widgetFrame">
 
             <div className="widgetHeader">
-                <span className="widgetTitle"> {arg.title} </span>
+                <div className="widgetTitle">
+                    <div className="parameterName">
+                        {arg.title}
+                    </div>
+
+                    <div className="subsystemName">
+                        {arg.subsystemName}
+                    </div>
+                </div>
                 <div>
                     <button onClick={() => setLocked(!locked)}> {locked ? "🔒" :  "🔓"} </button>
-                    <button>✕</button>
+                    <button onClick={arg.onRemove}>✕</button>
                 </div>
             </div>
 
             <div className="widgetFrameBody">
-                {arg.chartType}
+                {arg.children}
             </div>
             
         </div>

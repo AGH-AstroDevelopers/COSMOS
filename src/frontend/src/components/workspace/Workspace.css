@@ -1,18 +1,25 @@
 /*workspace*/
-.workspace{
-    position: absolute;
+.workspace {
+    position: fixed;
+
     top: 38px;
     left: 0;
 
     width: 100%;
     height: calc(100vh - 38px);
 
+    box-sizing: border-box;
+
+    overflow: auto;
+
     background-image:
         linear-gradient(#4f4e4e 1px, transparent 1px),
         linear-gradient(90deg, #4f4e4e 1px, transparent 1px);
+
     background-size: 10px 10px;
 
     z-index: 1;
+
     transition: width 0.25s ease, left 0.25s ease;
 }
 .workspace.open{
@@ -39,13 +46,24 @@
     border-bottom: 0.5px solid #060606;
     padding: 4px;   
 }
-.widgetTitle{
-    color: #96a9bd;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 14px;
-    
+.widgetTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
     padding: 4px;
-    letter-spacing: 1px;
+}
+
+.parameterName {
+    color: #e8eaed;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.subsystemName {
+    color: #6f7b85;
+    font-family: sans-serif;
+    font-size: 9px;
 }
 .widgetHeader button{
     background-color: transparent;
@@ -53,6 +71,8 @@
     cursor: pointer;
     color: #96a9bd;
 }
+
+
 
 .emptyWorkspaceText {
     color: #96a9bd;

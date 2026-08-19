@@ -1,61 +1,71 @@
-/*SIDE BAR*/
-.openBar{
+/* ===============SIDE BAR========================= */
+.openBar {
     position: fixed;
     left: 16px;
     top: 60px;
 
-    width:32px;
-    height:32px;
-    border-radius:  50%;
-    
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+
     background-color: #1f2428;
-    color:#e8eaed;
+    color: #e8eaed;
     border: 1px solid #3a4147;
 
     font-size: 17px;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
     cursor: pointer;
     z-index: 30;
+
     transition: transform 0.25s ease;
 }
-.openBar.open{
-    transform: translateX(+280px);
+.openBar.open {
+    transform: translateX(280px);
 }
-.openBar.closed{
+.openBar.closed {
     transform: translateX(0);
 }
 
 
-.sidebarContent{
+.sidebarContent {
     position: fixed;
-    left: 0px;
+    left: 0;
     top: 38px;
 
     width: 280px;
     height: calc(100vh - 38px);
 
-    background-color:  #1b1f23;
+    background-color: #1b1f23;
     border-right: 1px solid #2c3238;
+    box-sizing: border-box;
+
     z-index: 10;
+
     transition: transform 0.25s ease;
 }
-.sidebarContent.open {transform: translateX(0);}
-.sidebarContent.closed {transform: translateX(-100%)}
+.sidebarContent.open {
+    transform: translateX(0);
+}
+.sidebarContent.closed {
+    transform: translateX(-100%);
+}
 
-/*CONTENT*/
-.searchBox{
+
+/* ============SEARCH========================= */
+.searchBox {
     padding: 12px;
     border-bottom: 1px solid #2c3238;
 }
-
-.searchBox input{
+.searchBox input {
     box-sizing: border-box;
-    width:75%;
+
+    width: 100%;
     padding: 8px 12px;
-    
+
     background-color: #14171a;
     color: #e8eaed;
 
@@ -65,95 +75,109 @@
     font-size: 13px;
     outline: none;
 }
-
-/*LIST*/
-.widgetTree{
-    padding:12px;
-    overflow-y: auto;
+.searchBox input:focus {
+    border-color: #4a555e;
 }
 
-.subsystemButton{
-    width:100%;
-    height:32px;
+/* ============WIDGET TREE========================= */
+.widgetTree {
+    padding: 12px;
+
+    overflow-y: auto;
+
+    height: calc(100% - 61px);
+    box-sizing: border-box;
+}
+
+
+/* ============TOGGLE LIST========================= */
+.toggleList {
+    width: 100%;
+}
+.toggleListButton {
+    width: 100%;
+    height: 32px;
 
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: flex-start;
 
     background-color: transparent;
     border: none;
-    
+
     color: #e8eaed;
     font-size: 12px;
-    cursor:pointer;
+
+    cursor: pointer;
     border-radius: 6px;
 
-    padding-left: 12px;
+    padding: 0 12px;
     gap: 6px;
 }
-.subsystemButton:hover{
+.toggleListButton:hover {
     background-color: #24292f;
 }
-.parameterButton{
-    width:100%;
-    height:32px;
 
-    display: flex;
-    align-items:center;
-    justify-content: flex-start;
 
-    background-color: transparent;
-    border: none;
-    
+/* =========NESTED TOGGLE LISTS========================= */
+/* parameter level */
+.toggleListContent .toggleList .toggleListButton {
     color: #98999a;
-    font-size: 12px;
-    cursor:pointer;
-    border-radius: 6px;
-
     padding-left: 32px;
-    gap: 6px;
 }
-.parameterButton:hover{
+/* parameter hover */
+.toggleListContent .toggleList .toggleListButton:hover {
     background-color: #24292f;
 }
-.arrow{
+
+
+/* ==========ARROW========================= */
+.arrow {
     display: inline-block;
+
     color: #5f6b73;
     font-size: 12px;
 
     transition: transform 300ms ease;
 }
-.arrow.open{
+.arrow.open {
     transform: rotate(90deg);
 }
 
-.visualizationList{
-    display:flex;
+
+/* ==========VISUALIZATIONS========================= */
+.visualizationList {
+    display: flex;
     flex-direction: column;
 
     padding-left: 53px;
-    padding-top: 0px;
+    padding-top: 0;
     padding-bottom: 4px;
 
     color: #6f7071;
     font-size: 10px;
     font-family: monospace;
 }
-.visualizationList label{
+
+.visualizationList label {
     display: flex;
     align-items: center;
 
     width: 100%;
     height: 20px;
+
     gap: 7px;
 
     cursor: pointer;
+    border-radius: 4px;
 }
-.visualizationList input[type="checkbox"]{
+
+.visualizationList input[type="checkbox"] {
     margin: 0;
     cursor: pointer;
 }
-.visualizationList label:hover{
+
+.visualizationList label:hover {
     background-color: #24292f;
     color: #e8eaed;
 }

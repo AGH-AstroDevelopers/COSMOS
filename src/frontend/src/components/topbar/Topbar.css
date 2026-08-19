@@ -1,17 +1,23 @@
 .topbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
     height: 38px;
-    background-color: #1b1f23 ;
+    box-sizing: border-box;
+
+    background-color: #1b1f23;
     border-bottom: 1px solid #2c3238;
-    padding: 0 16px;   
-    
-    position:relative;
+
+    padding: 0 16px;
+
     z-index: 20;
 
-    display: flex; 
+    display: flex;
     flex-direction: row;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
-    
 }
 
 .leftTopbar{
