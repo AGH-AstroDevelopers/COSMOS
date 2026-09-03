@@ -26,7 +26,7 @@ function WidgetFrame(arg: WidgetFrameProps){
                         {arg.subsystemName}
                     </div>
                 </div>
-                <div>
+                <div className="widgetHeaderActions">
                     <button onClick={() => setLocked(!locked)}> {locked ? "🔒" :  "🔓"} </button>
                     <button onClick={arg.onRemove}>✕</button>
                 </div>

@@ -4,12 +4,10 @@
 
     top: 38px;
     left: 0;
-
     width: 100%;
     height: calc(100vh - 38px);
 
     box-sizing: border-box;
-
     overflow: auto;
 
     background-image:
@@ -17,9 +15,7 @@
         linear-gradient(90deg, #4f4e4e 1px, transparent 1px);
 
     background-size: 10px 10px;
-
     z-index: 1;
-
     transition: width 0.25s ease, left 0.25s ease;
 }
 .workspace.open{
