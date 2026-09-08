@@ -1,0 +1,152 @@
+.workspace {
+    position: fixed;
+
+    top: 38px;
+    left: 0;
+
+    width: 100%;
+    height: calc(100vh - 38px);
+
+    box-sizing: border-box;
+
+    overflow: auto;
+
+    background-image:
+        linear-gradient(#4f4e4e 1px, transparent 1px),
+        linear-gradient(90deg, #4f4e4e 1px, transparent 1px);
+
+    background-size: 10px 10px;
+
+    z-index: 1;
+
+    /* transform, not width/left - sidebar overlays the canvas without
+       resizing it, so react to open/close never triggers a reflow. */
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+}
+.workspace.open {
+    transform: translateX(280px);
+}
+
+.workspaceCanvasSizer {
+    position: relative;
+    pointer-events: none;
+}
+
+.widgetFrame {
+    background-color: #34404d;
+    border: 1px solid hsl(211, 31%, 37%);
+    border-radius: 1px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    cursor: move;
+
+    /* Prevents native text selection from stealing mousemove events
+       during a fast drag. */
+    user-select: none;
+    -webkit-user-select: none;
+}
+.widgetFrame.locked {
+    cursor: not-allowed;
+}
+.widgetHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 0.5px solid #060606;
+    padding: 4px;
+    flex-shrink: 0;
+}
+.widgetTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px;
+}
+
+.parameterName {
+    color: #e8eaed;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.subsystemName {
+    color: #6f7b85;
+    font-family: sans-serif;
+    font-size: 9px;
+}
+.widgetHeader button {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+    color: #96a9bd;
+}
+/* Higher specificity than .widgetFrame.locked so header buttons (which
+   stay clickable regardless of lock state) keep a pointer cursor. */
+.widgetFrame.locked .widgetHeader button {
+    cursor: pointer;
+}
+
+.widgetFrameBody {
+    flex: 1;
+    padding: 8px;
+    overflow: auto;
+}
+
+/* Resize handles - 8 directions, thin invisible strips along the
+   edges/corners with the matching directional cursor. */
+.resizeHandle {
+    position: absolute;
+    z-index: 5;
+}
+.resizeHandle-n {
+    top: -4px; left: 8px; right: 8px; height: 8px;
+    cursor: n-resize;
+}
+.resizeHandle-s {
+    bottom: -4px; left: 8px; right: 8px; height: 8px;
+    cursor: s-resize;
+}
+.resizeHandle-e {
+    top: 8px; bottom: 8px; right: -4px; width: 8px;
+    cursor: e-resize;
+}
+.resizeHandle-w {
+    top: 8px; bottom: 8px; left: -4px; width: 8px;
+    cursor: w-resize;
+}
+.resizeHandle-ne {
+    top: -4px; right: -4px; width: 12px; height: 12px;
+    cursor: ne-resize;
+}
+.resizeHandle-nw {
+    top: -4px; left: -4px; width: 12px; height: 12px;
+    cursor: nw-resize;
+}
+.resizeHandle-se {
+    bottom: -4px; right: -4px; width: 12px; height: 12px;
+    cursor: se-resize;
+}
+.resizeHandle-sw {
+    bottom: -4px; left: -4px; width: 12px; height: 12px;
+    cursor: sw-resize;
+}
+
+.emptyWorkspaceText {
+    color: #96a9bd;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    letter-spacing: 1px;
+}
