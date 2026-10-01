@@ -1,3 +1,4 @@
+@import "../../Theme.css";
 /* ===============SIDE BAR========================= */
 .openBar {
     position: fixed;
@@ -8,8 +9,8 @@
     height: 32px;
     border-radius: 50%;
 
-    background-color: #1f2428;
-    color: #e8eaed;
+    background-color: var(--color-sidepanel-bar);
+    color: var(--color-text);
     border: 1px solid #3a4147;
 
     font-size: 17px;
@@ -39,7 +40,7 @@
     width: 280px;
     height: calc(100vh - 38px);
 
-    background-color: #1b1f23;
+    background-color: var(--color-sidebar);
     border-right: 1px solid #2c3238;
     box-sizing: border-box;
 
@@ -66,8 +67,8 @@
     width: 100%;
     padding: 8px 12px;
 
-    background-color: #14171a;
-    color: #e8eaed;
+    background-color: var(--color-background);
+    color: var(--color-text);
 
     border: 1px solid #2c3238;
     border-radius: 6px;
@@ -105,7 +106,7 @@
     background-color: transparent;
     border: none;
 
-    color: #e8eaed;
+    color: var(--color-text);
     font-size: 12px;
 
     cursor: pointer;
@@ -115,19 +116,19 @@
     gap: 6px;
 }
 .toggleListButton:hover {
-    background-color: #24292f;
+    background-color: var(--color-sidepanel);
 }
 
 
 /* =========NESTED TOGGLE LISTS========================= */
 /* parameter level */
 .toggleListContent .toggleList .toggleListButton {
-    color: #98999a;
+    color: var(--color-sidepanel-list);
     padding-left: 32px;
 }
 /* parameter hover */
 .toggleListContent .toggleList .toggleListButton:hover {
-    background-color: #24292f;
+    background-color: var(--color-sidepanel);
 }
 
 
@@ -154,7 +155,7 @@
     padding-top: 0;
     padding-bottom: 4px;
 
-    color: #6f7071;
+    color: var(--color-visualization-list);
     font-size: 10px;
     font-family: monospace;
 }
@@ -178,6 +179,6 @@
 }
 
 .visualizationList label:hover {
-    background-color: #24292f;
-    color: #e8eaed;
+    background-color: var(--color-vis-list-hover);
+    color: var(--color-text);
 }

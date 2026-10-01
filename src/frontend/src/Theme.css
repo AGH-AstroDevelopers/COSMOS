@@ -1,0 +1,41 @@
+:root{
+    color-theme: dark;
+
+    --color-background: #14171a;
+    --color-sidepanel: #24292f;
+    --color-topbar: #1b1f23;
+    --color-topbar-text:#5f6b73;
+    --color-topbar-button:#262c31;
+    --color-sidepanel-bar: #1f2428;
+    --color-text: #e8eaed;
+    --color-sidebar: #1b1f23;
+    --color-sidepanel-list:#98999a;
+    --color-visualization-list: #6f7071;
+    --color-vis-list-hover:#24292f;
+    --color-widget-text: #96a9bd;
+    --color-subsystem-text: #6f7b85;
+    --color-workspace-text:#96a9bd ;
+    --color-grid: #4f4e4e ;
+
+}
+:root[data-theme="light"]{
+    color-theme: light;
+
+    --color-background: #d8e1eb;
+    --color-sidepanel: #6a788a;
+    --color-topbar:#7e868f;
+    --color-topbar-text:#1d2021;
+    --color-topbar-button:#51585e;
+    --color-sidepanel-bar: #8e9da8;
+    --color-text: #19191a;
+    --color-sidebar: #9da5b8;
+    --color-sidepanel-list:#414345;
+    --color-visualization-list: #313233;
+    --color-vis-list-hover: #7e8690;
+    --color-widget-text: #3a424a;
+    --color-subsystem-text: #394045;
+    --color-workspace-text: #181f26 ;
+    --color-grid: #787171;
+}
+
+
