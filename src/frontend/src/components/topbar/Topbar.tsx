@@ -1,6 +1,14 @@
 import "./Topbar.css";
 
-function Topbar(){
+type TopbarProps = {
+    theme: ColorTheme;
+    onToggleTheme: () => void;
+    };
+
+function Topbar({ theme, onToggleTheme }: TopbarProps){
+
+    const isDark = theme === "dark";
+
     return(
         <header className="topbar">
             <div className="leftTopbar">
@@ -9,7 +17,13 @@ function Topbar(){
             <div className="rightTopbar">
                 <span className="AstroDevelopers">AstroDevelopers</span>
                 <div className="topbarButtons">
-                    <button>☀</button>
+                    <button
+                    type="button"
+                    onClick={onToggleTheme}
+                    aria-label={isDark ? "light theme" : "dark theme"}
+                    aria-pressed={isDark}
+                    >
+                    {isDark?"☀":"☾"}</button>
                     <button>Save</button>
                     <button>Layouts ▾</button>
                 </div>
