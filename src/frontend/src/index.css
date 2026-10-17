@@ -1,0 +1,10 @@
+@import "Theme.css";
+body{
+    margin:0;
+    background-color: var(--color-background);
+}
+
+#root{
+    min-height: 100vh;
+    font-family: fontSans;
+}
