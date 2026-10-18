@@ -5,14 +5,7 @@
       "id": "thermal",
       "name": "Thermal subsystem",
       "parameters": [
-        {
-          "id": "temperature",
-          "name": "Temperature",
-          "type": "number",
-          "unit": "°C",
-          "visualizations": ["line", "gauge", "value", "bar"],
-          "limits": { "warning": { "low": 20, "high": 60 } }
-        },
+        { "id": "temperature", "name": "Temperature", "type": "number", "unit": "°C", "visualizations": ["line", "gauge", "value", "bar"] },
         { "id": "heater", "name": "Heater", "type": "boolean", "visualizations": ["value"] },
         { "id": "status", "name": "Status", "type": "enum", "visualizations": ["value"] }
       ]
@@ -21,14 +14,7 @@
       "id": "power",
       "name": "Power subsystem",
       "parameters": [
-        {
-          "id": "voltage",
-          "name": "Voltage",
-          "type": "number",
-          "unit": "V",
-          "visualizations": ["line", "gauge", "value"],
-          "limits": { "warning": { "low": 11.6 }, "critical": { "low": 11.3 } }
-        },
+        { "id": "voltage", "name": "Voltage", "type": "number", "unit": "V", "visualizations": ["line", "gauge", "value"] },
         { "id": "current", "name": "Current", "type": "number", "unit": "mA", "visualizations": ["line", "gauge", "value"] },
         { "id": "battery", "name": "Battery", "type": "number", "unit": "%", "visualizations": ["line", "gauge", "value", "bar"] }
       ]

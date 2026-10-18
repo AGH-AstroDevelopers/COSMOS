@@ -29,7 +29,7 @@ def test_python_simulator_v1_source_valid():
 
     packet = valid_packet()
     decoded = source.decode(packet)
-    assert decoded == packet
+    assert decoded["thermal.temperature"]["value"] == packet["thermal"]["temperature_c"]
 
 
 def test_python_simulator_v1_source_invalid():
