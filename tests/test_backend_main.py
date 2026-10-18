@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
-from src.backend.main import app
-import src.backend.main as main_module
+from src.telemetry_router_tool.main import app
+import src.telemetry_router_tool.main as main_module
 
 """
 Integration tests for the FastAPI backend

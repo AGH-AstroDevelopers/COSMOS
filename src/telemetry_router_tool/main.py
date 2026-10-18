@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from src.backend.config import PORT
-from src.backend.validator import validate_packet
+from src.telemetry_router_tool.config import PORT
+from src.telemetry_router_tool.sources_adapters.python_simulator_v1.validator import is_packet_valid
 
 app = FastAPI()
 # Stores the most recently received telemetry packet in memory.
@@ -15,13 +15,12 @@ latest_packet = None
 @app.post("/telemetry", status_code=201)
 async def receive_packet(data: dict):
     global latest_packet
-    # "ok" if valid, else an error explanation
-    validation_result = validate_packet(data)
-    if validation_result == "ok":
+    is_valid, error = is_packet_valid(data)
+    if is_valid:
         # if packet is valid -> store data and return status received
         latest_packet = data
         print(latest_packet)
         return {"status": "received"}
     else:
         # if packet is invalid -> return HTTP status 422 and error explanation
-        return JSONResponse(status_code=422, content={"error": validation_result})
+        return JSONResponse(status_code=422, content={"error": error})

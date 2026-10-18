@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 import logging
 import requests
-from src.simulator.config import BACKEND_URL, SEND_INTERVAL_S
+from src.sources.python_telemetry_simulator.config import BACKEND_URL, SEND_INTERVAL_S
 
 # --- Configuration Constants ---
 
