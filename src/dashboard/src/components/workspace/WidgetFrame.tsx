@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import type { WidgetConfig } from "../types/telemetry";
+import ReceptionDot from "../widgets/ReceptionDot";
 import "./Workspace.css"
 
 // Custom drag/resize on native mouse events - no external library.
@@ -169,6 +170,7 @@ function WidgetFrame(arg: WidgetFrameProps){
                     </div>
                 </div>
                 <div className="widgetHeaderActions">
+                    <ReceptionDot parameterKey={`${arg.config.subsystemId}.${arg.config.parameterId}`} />
                     <button onClick={arg.onToggleLock}> {arg.locked ? "🔒" :  "🔓"} </button>
                     <button onClick={arg.onRemove}>✕</button>
                 </div>

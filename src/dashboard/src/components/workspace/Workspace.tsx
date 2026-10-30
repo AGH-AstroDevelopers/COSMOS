@@ -3,6 +3,8 @@ import "./Workspace.css";
 import WidgetFrame, { type Geometry } from "./WidgetFrame";
 import type { WidgetConfig, SubsystemConfig, VisualizationType, ParameterConfig } from "../types/telemetry";
 import { telemetryConfig } from "../widgets/telemetryConfig";
+import WidgetRenderer from "../widgets/WidgetRenderer";
+import { usePersistentState, setToArray, arrayToSet } from "../../hooks/usePersistentState";
 
 // Free-form canvas: no grid library. Positions/sizes are raw pixels;
 // drag/resize is handled by WidgetFrame via native mouse events.
@@ -30,11 +32,12 @@ const CASCADE_LIMIT = 8;
 const CANVAS_PADDING = 200;
 
 function Workspace(arg: WorkspaceProps){
-    const [geometry, setGeometry] = useState<Record<string, Geometry>>({});
-    const [lockedWidgets, setLockedWidgets] = useState<Set<string>>(new Set());
+    const [geometry, setGeometry] = usePersistentState<Record<string, Geometry>>("cosmos.geometry", {});
+    const [lockedWidgets, setLockedWidgets] = usePersistentState<Set<string>>(
+        "cosmos.lockedWidgets", new Set(), setToArray, arrayToSet);
 
     // Click order, not insertion order - last entry renders on top.
-    const [zOrder, setZOrder] = useState<string[]>([]);
+    const [zOrder, setZOrder] = usePersistentState<string[]>("cosmos.zOrder", []);
 
     // Cascade slot assigned once per widget, on first spawn without a
     // saved geometry. Tracked as a set of used slots (not a monotonic
@@ -195,7 +198,11 @@ function Workspace(arg: WorkspaceProps){
                                 onToggleLock={() => toggleLock(widgetId)}
                                 onRemove={() => removeWidget(widgetId)}
                             >
-                                {visual}
+                                <WidgetRenderer
+                                    visualization={config.visualization}
+                                    parameterKey={`${subsystemId}.${parameterId}`}
+                                    unit={parameter?.unit}
+                                />
                             </WidgetFrame>
                         );
                     })}

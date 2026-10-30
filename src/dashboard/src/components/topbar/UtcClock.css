@@ -1,0 +1,46 @@
+/* Sits in the top-right corner, just under the top bar. */
+.utcClock {
+    position: fixed;
+    top: 46px;
+    right: 12px;
+    z-index: 100;           /* above the workspace and its widgets */
+    text-align: center;
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: #c5d1de;
+    background-color: rgba(20, 23, 26, 0.8);   /* dark backdrop in both themes, digits do not blend with the grid */
+    border: 1px solid rgba(150, 169, 189, 0.25);
+    border-radius: 4px;
+    padding: 5px 12px 6px;
+    pointer-events: none;   /* never blocks clicks on widgets below */
+}
+.utcClockTime {
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+.utcClockTime span {
+    font-size: 11px;
+    opacity: 0.7;
+}
+.utcClockDate {
+    font-size: 11px;
+    opacity: 0.75;
+}
+.utcClockSource {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(150, 169, 189, 0.25);
+    font-size: 11px;
+    color: #f2f5f8;          /* brighter than the rest */
+}
+.utcClockSource .sourceLabel {
+    color: #96a9bd;
+}
+.sourceDot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+}
+.sourceDot.receiving { background-color: var(--color-dot-live); }
+.sourceDot.idle      { background-color: var(--color-dot-idle); }

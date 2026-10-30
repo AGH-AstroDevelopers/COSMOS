@@ -17,6 +17,12 @@
     --color-workspace-text:#96a9bd ;
     --color-grid: #4f4e4e ;
 
+    /* Widget frames are dark in both themes, so these do not change with the theme. */
+    --color-value-text: #e8eaed;
+    --color-warning: #f2c14e;
+    --color-critical: #ff5a52;
+    --color-dot-live: #3ddc84;
+    --color-dot-idle: #6f7b85;
 }
 :root[data-theme="light"]{
     color-theme: light;
