@@ -12,7 +12,7 @@ def create_dashboard_app(dispatcher: Dispatcher, hub: DashboardHub) -> FastAPI:
 
     @app.websocket("/ws/connect")
     async def register_dashboard(websocket: WebSocket) -> None:
-        """Register one dashboard, send last message and manage its connection."""
-        await hub.handle(websocket, initial_message=dispatcher.last_message)
+        """Register one dashboard, tell it which source is selected and manage its connection."""
+        await hub.handle(websocket, initial_message=dispatcher.status_message)
 
     return app

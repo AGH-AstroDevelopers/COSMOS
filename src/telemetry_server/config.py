@@ -1,5 +1,5 @@
-from src.telemetry_server.processing.telemetry_source import TelemetrySource
-from src.telemetry_server.sources_adapters.python_simulator_v1.source_main import PythonSimulatorV1Source
+from src.telemetry_server.data_processing.telemetry_source import TelemetrySource
+from src.telemetry_server.data_processing.sources_adapters.python_simulator_v1.source_main import PythonSimulatorV1Source
 
 
 #--------------Connection: SOURCE => TELEMETRY_SERVER config-----------------

@@ -18,7 +18,6 @@ class _Client:
 
     def queue_package(self, message: dict) -> None:
         """Put a message in the queue without waiting.
-
         If the dashboard is too slow and its queue is full, the OLDEST message is
         dropped: for live telemetry the newest value is the one that matters.
         """
@@ -41,7 +40,7 @@ class DashboardHub:
         """Number of connected dashboards."""
         return len(self._clients)
 
-    def broadcast(self, message: dict) -> None:
+    def enqueue_for_all_clients(self, message: dict) -> None:
         """Send formatted data package to all dashboards (add message to Client's queue)"""
         for client in self._clients:  
             client.queue_package(message)
@@ -50,7 +49,7 @@ class DashboardHub:
         """Serve one dashboard from connect to disconnect.
 
         websocket: connection with individual dashboard (Client object)
-        initial_message: sent first (e.g. the last known data, so widgets on newly opened dashboards are not empty).
+        initial_message: sent first (the "status" message telling which source is selected).
         dashboard_command: #TODO: called with every text the dashboard sends (for commands later), messages are ignored when it is None.
         """
         await websocket.accept() #request DASHBOARD_PORT to connect this dashboard to port, wait for the operation to complete
@@ -59,7 +58,7 @@ class DashboardHub:
         client = _Client(websocket, self._queue_size)
         self._clients.add(client)
         logger.info("Dashboard connected (%d total)", len(self._clients))
-        if initial_message != None:
+        if initial_message is not None:
             client.queue_package(initial_message)
 
         #Launch two dashboard tasks: listening for data, sending commands (concurrently)
@@ -71,14 +70,16 @@ class DashboardHub:
             for task in done:
                 if task.exception() is not None:
                     logger.warning("Dashboard connection ended with an error: %r", task.exception())
-        finally: 
-            #closing connection with this dashboard
+        finally:
+            # Remove the dashboard FIRST: this step has no `await`, so nothing can interrupt it.
+            # (If this task is cancelled again while waiting below, the dashboard is already gone.)
+            self._clients.discard(client)
+            logger.info("Dashboard disconnected (%d total)", len(self._clients))
+
+            # Closing connection with this dashboard
             receiver.cancel()
             sender.cancel()
-            await asyncio.gather(receiver, sender, return_exceptions=True)#wait for closing all tasks
-            
-            self._clients.discard(client) 
-            logger.info("Dashboard disconnected (%d total)", len(self._clients))
+            await asyncio.gather(receiver, sender, return_exceptions=True)  # wait for both tasks to finish
 
     @staticmethod
     async def _receive_loop(websocket: WebSocket, on_message) -> None:

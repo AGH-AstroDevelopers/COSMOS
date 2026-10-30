@@ -10,7 +10,7 @@ from src.telemetry_server.communication.dashboards.hub import DashboardHub
 from src.telemetry_server.communication.dashboards.server import create_dashboard_app
 from src.telemetry_server.communication.sources.server import create_sources_app
 from src.telemetry_server.communication.dispatcher import Dispatcher
-from src.telemetry_server.processing.telemetry_source import TelemetrySource
+from src.telemetry_server.data_processing.telemetry_source import TelemetrySource
 
 #Create object for saving logs
 logger = logging.getLogger(__name__)
@@ -64,7 +64,7 @@ def create_connection(app, host: str, port: int) -> uvicorn.Server:
 async def connect(source_id:str, source: TelemetrySource) -> None:
     """Enables the source and dashboard ports. Core function for connecting whole tool logic."""
     hub = DashboardHub() # Object for managing connected dashboards
-    dispatcher = Dispatcher(source_id, source, hub.broadcast)  # decides what to do with data; hands results to the hub
+    dispatcher = Dispatcher(source_id, source, hub.enqueue_for_all_clients)  # decides what to do with data; hands results to the hub
 
     sources_connection = create_connection(
         create_sources_app(dispatcher), 
