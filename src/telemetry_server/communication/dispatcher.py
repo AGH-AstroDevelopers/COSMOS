@@ -28,9 +28,7 @@ class Dispatcher:
     def handle_raw(self, raw: dict) -> dict:
         """Convert a raw packet from the source and hand the result to `publish`.
 
-        Returns the message that was published:
-        `{"type": "telemetry", "source": <source id>, "data": {...}}`
-
+        Returns the message that was published: `{"type": "telemetry", "source": <source id>, "data": {...}}`
         ValueError: if the source rejects the packet (nothing published)
         """
         ready_data = self._source.decode(raw)  # raises ValueError for an invalid packet

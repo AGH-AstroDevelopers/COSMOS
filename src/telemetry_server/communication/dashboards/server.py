@@ -15,4 +15,5 @@ def create_dashboard_app(dispatcher: Dispatcher, hub: DashboardHub) -> FastAPI:
         """Register one dashboard, tell it which source is selected and manage its connection."""
         await hub.handle(websocket, initial_message=dispatcher.status_message)
 
+
     return app

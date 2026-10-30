@@ -50,6 +50,7 @@ class DashboardHub:
 
         websocket: connection with individual dashboard (Client object)
         initial_message: sent first (the "status" message telling which source is selected).
+        
         dashboard_command: #TODO: called with every text the dashboard sends (for commands later), messages are ignored when it is None.
         """
         await websocket.accept() #request DASHBOARD_PORT to connect this dashboard to port, wait for the operation to complete
