@@ -61,6 +61,39 @@ def create_connection(app, host: str, port: int) -> uvicorn.Server:
         )
     )
 
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+RESET = "\033[0m"
+
+
+def local_ip() -> str:
+    """Address of this computer in the local network (nothing is sent: it only picks the network card)."""
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
+        try:
+            probe.connect(("10.255.255.255", 1))
+            return probe.getsockname()[0]
+        except OSError:
+            return "127.0.0.1"
+
+
+def print_addresses() -> None:
+    """Print where to open the dashboard and where sources send data, in colour so it stands out from the log."""
+    os.system("")  # makes older Windows consoles understand colours
+    ip = local_ip()
+    sources_host = ip if config.SOURCE_HOST == "0.0.0.0" else config.SOURCE_HOST
+    dashboard_host = ip if config.DASHBOARD_HOST == "0.0.0.0" else config.DASHBOARD_HOST
+    lines = [
+        "=" * 64,
+        " COSMOS telemetry server is running",
+        f" Open the dashboard in a browser : http://{dashboard_host}:{config.DASHBOARD_PORT}",
+        f" Sources send data to            : http://{sources_host}:{config.SOURCE_PORT}/telemetry_stream",
+        "=" * 64,
+    ]
+    print(GREEN + "\n".join(lines) + RESET, flush=True)
+    if not (config.DASHBOARD_BUILD_DIR / "index.html").is_file():
+        print(YELLOW + " Dashboard is not built yet: run `npm run build` in src/dashboard, then restart." + RESET, flush=True)
+
+
 async def connect(source_id:str, source: TelemetrySource) -> None:
     """Enables the source and dashboard ports. Core function for connecting whole tool logic."""
     hub = DashboardHub() # Object for managing connected dashboards
@@ -75,7 +108,7 @@ async def connect(source_id:str, source: TelemetrySource) -> None:
         config.DASHBOARD_HOST, 
         config.DASHBOARD_PORT)
 
-    logger.info("Telemetry server started: sources -> %s:%d, dashboards -> %s:%d",config.SOURCE_HOST, config.SOURCE_PORT, config.DASHBOARD_HOST, config.DASHBOARD_PORT)
+    print_addresses()
     
     try:
         await asyncio.gather(
@@ -90,6 +123,7 @@ def main(source_id: str = config.DEFAULT_SOURCE_ID) -> None: #TODO: take source_
 
     # TODO: replace with logging_setup.setup_logging() (next step)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    logging.getLogger("uvicorn.error").setLevel(logging.WARNING)
 
     #Create the chosen source object
     try:

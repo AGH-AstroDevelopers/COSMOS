@@ -9,7 +9,7 @@ type WidgetRendererProps = {
 };
 
 // The one place that picks the widget for a visualization type.
-// New widgets (line, gauge, bar) are added here.
+// TODO: New widgets (line, gauge, bar) add here
 function WidgetRenderer({ visualization, parameterKey, unit }: WidgetRendererProps) {
     switch (visualization) {
         case "value":

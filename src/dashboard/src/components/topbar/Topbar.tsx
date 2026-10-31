@@ -1,4 +1,5 @@
 import "./Topbar.css";
+export type ColorTheme = "light" | "dark";
 
 type TopbarProps = {
     theme: ColorTheme;

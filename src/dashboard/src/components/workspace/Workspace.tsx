@@ -6,9 +6,6 @@ import { telemetryConfig } from "../widgets/telemetryConfig";
 import WidgetRenderer from "../widgets/WidgetRenderer";
 import { usePersistentState, setToArray, arrayToSet } from "../../hooks/usePersistentState";
 
-// Free-form canvas: no grid library. Positions/sizes are raw pixels;
-// drag/resize is handled by WidgetFrame via native mouse events.
-
 type WorkspaceProps = {
     sidebarOpen: boolean;
     selectedWidgets: Set<string>;
@@ -22,13 +19,11 @@ const DEFAULT_H = 260;
 const SPAWN_X = 420;
 const SPAWN_Y = 100;
 
-// Cascade offset applied to consecutive widgets spawning without their
-// own saved position, so they don't stack fully on top of each other.
+// Cascade offset applied to consecutive widgets spawning without their own saved position, so they don't stack fully on top of each other.
 const CASCADE_STEP = 28;
 const CASCADE_LIMIT = 8;
 
-// Extra space appended past the furthest widget so there's always
-// room to scroll to (and grab) it.
+// Extra space appended past the furthest widget so there's always room to scroll to (and grab) it
 const CANVAS_PADDING = 200;
 
 function Workspace(arg: WorkspaceProps){
@@ -36,13 +31,7 @@ function Workspace(arg: WorkspaceProps){
     const [lockedWidgets, setLockedWidgets] = usePersistentState<Set<string>>(
         "cosmos.lockedWidgets", new Set(), setToArray, arrayToSet);
 
-    // Click order, not insertion order - last entry renders on top.
     const [zOrder, setZOrder] = usePersistentState<string[]>("cosmos.zOrder", []);
-
-    // Cascade slot assigned once per widget, on first spawn without a
-    // saved geometry. Tracked as a set of used slots (not a monotonic
-    // counter) so a freed slot is reused by the next widget instead of
-    // cascading further out.
     const cascadeAssignments = useRef<Map<string, number>>(new Map());
     const usedCascadeSlots = useRef<Set<number>>(new Set());
 
@@ -67,10 +56,6 @@ function Workspace(arg: WorkspaceProps){
         }
     }
 
-    // Per-widget state cleanup lives here, keyed off changes to
-    // selectedWidgets, so it fires regardless of WHICH UI action removed
-    // the widget (the ✕ button here, or the checkbox in the sidebar,
-    // which mutates selectedWidgets directly in App).
     const prevWidgetIds = useRef<Set<string>>(new Set());
     useEffect(() => {
         const current = arg.selectedWidgets;
@@ -116,8 +101,6 @@ function Workspace(arg: WorkspaceProps){
     }
 
     function removeWidget(widgetId: string) {
-        // Geometry/lock/z-order/cascade cleanup is handled by the effect
-        // above; this only removes the widget from the selection.
         arg.setSelectedWidgets(prev => {
             const next = new Set(prev);
             next.delete(widgetId);
@@ -127,9 +110,6 @@ function Workspace(arg: WorkspaceProps){
 
     const widgetIds = Array.from(arg.selectedWidgets);
 
-    // Canvas size = bounding box of the furthest widget + padding,
-    // rendered as a plain (non-absolute) sizer element so the browser
-    // reliably computes scrollWidth/scrollHeight for .workspace.
     let canvasW = 0;
     let canvasH = 0;
     for (const widgetId of widgetIds) {

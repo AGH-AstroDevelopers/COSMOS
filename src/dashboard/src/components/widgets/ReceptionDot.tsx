@@ -3,7 +3,9 @@ import "./widgets.css";
 
 type ReceptionDotProps = { parameterKey: string };
 
-// Small light in the widget header: green = data of this parameter arrives, grey = it does not.
+// Small light in the widget header: 
+// green = data of this parameter arrives from source, 
+// grey = it does not
 function ReceptionDot({ parameterKey }: ReceptionDotProps) {
     const { receiving, ageSeconds } = useParameterData(parameterKey);
 

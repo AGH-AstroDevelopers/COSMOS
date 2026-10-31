@@ -4,16 +4,17 @@ import { createContext } from "react";
 export type ServerEntry = {
     value: number | boolean | string | null;
     unit?: string | null;
+    // TODO: the server sends no status (null) for booleans and enums; this type does not allow it yet.
     status: "ok" | "warning" | "critical" | "unknown";
-    timestamp: string; // time set by the source (can differ from this device's clock)
+    timestamp: string; // set by the source, so it can differ from this device's clock
 };
 
-// The same entry plus the moment THIS browser received it and the id of the source it came from.
-// Freshness is measured with receivedAt, so a tablet whose clock differs
-// from the computer's clock still shows correct "receiving / not receiving".
+// A server entry plus data added by this browser on arrival.
+// receivedAt (this device's clock) is used to judge freshness, so a device
+// with a wrong clock still shows a correct "receiving / not receiving".
 export type ParameterValue = ServerEntry & { receivedAt: number; source: string };
 
-// Latest value of every parameter, keyed like "thermal.temperature".
+// Latest value of every parameter, keyed "<subsystem>.<parameter>", e.g. "thermal.temperature".
 export type ParameterValues = Record<string, ParameterValue>;
 
 export type ConnectionState = "connecting" | "connected" | "disconnected";
@@ -21,10 +22,10 @@ export type ConnectionState = "connecting" | "connected" | "disconnected";
 export type TelemetryContextValue = {
     values: ParameterValues;
     connection: ConnectionState;
-    sourceId: string | null; // source selected on the server (null = not connected to a server)
+    sourceId: string | null; // source the server is connected to; null while disconnected
 };
 
-// Default is used only when a component is rendered outside of the provider.
+// Used only by components rendered outside of TelemetryProvider.
 export const TelemetryContext = createContext<TelemetryContextValue>({
     values: {},
     connection: "disconnected",

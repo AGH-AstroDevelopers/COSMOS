@@ -1,6 +1,6 @@
 from src.telemetry_server.data_processing.telemetry_source import TelemetrySource
 from src.telemetry_server.data_processing.sources_adapters.python_simulator_v1.source_main import PythonSimulatorV1Source
-
+from pathlib import Path
 
 #--------------Connection: SOURCE => TELEMETRY_SERVER config-----------------
 SOURCE_PORT = 8081 # Port on which sources send their packets.
@@ -16,6 +16,10 @@ AVAILABLE_SOURCES = {
 #--------------Connection: TELEMETRY_SERVER => DASHBOARD config-----------------
 DASHBOARD_PORT = 8082 # Port on which dashboards connect (WebSocket for live data TODO: commands)
 DASHBOARD_HOST = "0.0.0.0" 
+
+
+DASHBOARD_BUILD_DIR = Path(__file__).resolve().parents[1] / "dashboard" / "dist"
+
 
 # Pages allowed to call the server with HTTP requests from a browser
 ALLOWED_ORIGINS = ["*"]

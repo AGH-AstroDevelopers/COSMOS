@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 
-import Topbar from "./components/topbar/Topbar";
+import Topbar, { type ColorTheme } from "./components/topbar/Topbar";
 import SidePanel from "./components/sidebar/SidePanel";
 import Workspace from "./components/workspace/Workspace";
 import UtcClock from "./components/topbar/UtcClock";
 import { usePersistentState, setToArray, arrayToSet } from "./hooks/usePersistentState";
-
-type ColorTheme = "light" | "dark"
 
 function App(){
   const[theme,setTheme] =useState<ColorTheme>("dark");

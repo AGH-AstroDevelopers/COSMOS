@@ -1,18 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
-import {
-    TelemetryContext,
-    type ConnectionState,
-    type ParameterValues,
-    type ServerEntry,
-} from "./TelemetryContext";
+import {TelemetryContext,type ConnectionState,type ParameterValues,type ServerEntry} from "./TelemetryContext";
 
-// Port of the dashboard side of the telemetry server (see config.py).
-const SERVER_PORT = 8082;
 const RECONNECT_DELAY_MS = 2000;
 
-// The host comes from the page address, so a dashboard opened on a tablet
-// (http://<computer-ip>:5173) connects to the computer, not to the tablet itself.
-const SERVER_URL = `ws://${window.location.hostname}:${SERVER_PORT}/ws/connect`;
+// The dashboard connects to the place it was loaded from (host AND port of the page address).
+// In production that is the telemetry server itself (it serves this page).
+// In development (npm run dev) Vite forwards /ws to the server, see vite.config.ts.
+const SERVER_URL = `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/ws/connect`;
 
 type TelemetryProviderProps = { children: ReactNode };
 
