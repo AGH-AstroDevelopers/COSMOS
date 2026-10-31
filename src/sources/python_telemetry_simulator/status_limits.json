@@ -1,0 +1,9 @@
+{
+  "thermal.temperature": {
+    "warning": { "low": 20, "high": 60 }
+  },
+  "power.voltage": {
+    "warning": { "low": 11.6 },
+    "critical": { "low": 11.3 }
+  }
+}

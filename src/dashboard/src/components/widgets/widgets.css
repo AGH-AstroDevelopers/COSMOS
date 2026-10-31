@@ -1,0 +1,78 @@
+/* Light in the widget header */
+.receptionDot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+.receptionDot.receiving { background-color: var(--color-dot-live); }
+.receptionDot.idle      { background-color: var(--color-dot-idle); }
+
+/* The widget body is the anchor for everything placed inside it. */
+.widgetFrameBody {
+    position: relative;
+}
+
+/* Value widget: fills the whole body, content centred. */
+.valueWidget {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Number and unit side by side; the unit stands on the same baseline as the number. */
+.valueRow {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    color: var(--color-value-text);
+}
+.valueRow.status-warning  { color: var(--color-warning); }
+.valueRow.status-critical { color: var(--color-critical); }
+
+.valueNumber {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 40px;
+    line-height: 1;
+}
+.valueUnit {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 24px;
+    line-height: 1;
+}
+
+/* No data */
+.valueEmpty {
+    color: var(--color-dot-idle);
+}
+.valueCaption {
+    font-family: sans-serif;
+    font-size: 11px;
+    color: var(--color-dot-idle);
+}
+
+/* Time of the shown value, top-right corner of the widget body */
+.valueTimestamp {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--color-dot-idle);
+}
+
+.widgetPlaceholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    font-size: 12px;
+    color: var(--color-dot-idle);
+}
