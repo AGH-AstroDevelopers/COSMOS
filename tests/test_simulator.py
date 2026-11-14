@@ -4,8 +4,8 @@ import pytest
 import requests
 import logging
 
-from src.simulator.config import BACKEND_URL
-from src.simulator.simulator import generate_data, MAX_TEMP, update, MIN_TEMP, MAX_TEMP_DRIFT, send_packet
+from src.sources.python_telemetry_simulator.config import BACKEND_URL
+from src.sources.python_telemetry_simulator.simulator import generate_data, MAX_TEMP, update, MIN_TEMP, MAX_TEMP_DRIFT, send_packet
 
 """
 Unit and integration tests for the telemetry simulator
@@ -35,7 +35,7 @@ def test_generate_data():
 # By forcing a specific return value instead of a random number we make our
 # tests predictable and reproducible
 
-@patch("src.simulator.simulator.uniform")
+@patch("src.sources.python_telemetry_simulator.simulator.uniform")
 def test_update_clamps_to_max(mock_uniform):
     """Verifies that sensor drift cannot exceed the predefined limits"""
     # Force the random drift to generate a huge positive number
@@ -45,7 +45,7 @@ def test_update_clamps_to_max(mock_uniform):
     assert result == MAX_TEMP
 
 
-@patch("src.simulator.simulator.uniform")
+@patch("src.sources.python_telemetry_simulator.simulator.uniform")
 def test_update_clamps_to_min(mock_uniform):
     """Verifies that sensor drift cannot fall below the predefined limits"""
     # Force the random drift to generate a huge negative number
@@ -59,7 +59,7 @@ def test_update_clamps_to_min(mock_uniform):
 # Thanks to that our tests won't fail just because the real server is offline
 # Moreover we can easily simulate edge cases (like Timeouts or 500 Server Errors)
 
-@patch("src.simulator.simulator.requests.post")
+@patch("src.sources.python_telemetry_simulator.simulator.requests.post")
 def test_send_packet_success(mock_post, caplog):
     """
         Test the successful transmission of a telemetry packet
@@ -76,7 +76,7 @@ def test_send_packet_success(mock_post, caplog):
     assert len(caplog.records) == 0
 
 
-@patch("src.simulator.simulator.requests.post")
+@patch("src.sources.python_telemetry_simulator.simulator.requests.post")
 def test_send_packet_handles_timeout(mock_post, caplog):
     """
         Test network failure handling
